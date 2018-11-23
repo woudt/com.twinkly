@@ -37,7 +37,7 @@ class TwinklyDevice extends Homey.Device {
         this.error(error);
       })
 
-    //setTimeout(this.updateToken(), 3600000);
+      setTimeout(() => { this.updateToken() }, 10800000);
   }
 
   pollDevice(intervalStatus) {
