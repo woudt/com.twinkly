@@ -1,0 +1,485 @@
+{
+	"id": "com.twinkly",
+	"sdk": 2,
+	"brandColor": "#918167",
+	"name": {
+		"en": "Twinkly",
+		"nl": "Twinkly"
+	},
+	"tags": {
+		"en": [ "Twinkly", "Christmas", "Light", "LED" ],
+		"nl": [ "Twinkly", "Kerst", "Verlichting", "LED" ]
+	},
+	"version": "1.0.0",
+	"compatibility": ">=1.5.12",
+	"author": {
+		"name": "Jelger Haanstra",
+		"email": "homey@solidewebservices.com",
+		"website": "https://github.com/jghaanstra/com.twinkly"
+	},
+	"contributing": {
+		"donate": {
+			"paypal": {
+				"username": "jghaanstra"
+			}
+		}
+	},
+	"bugs": {
+		"url": "https://github.com/jghaanstra/com.twinkly/issues"
+	},
+	"homeyCommunityTopicId": 765,
+	"images": {
+		"large": "./assets/images/large.jpg",
+		"small": "./assets/images/small.jpg"
+	},
+	"category": "appliances",
+	"description": {
+		"en": "Control Twinkly devices",
+		"nl": "Bestuur Twinkly apparaten"
+	},
+	"dependencies": {
+		"net": "*"
+	},
+	"drivers": [
+		{
+			"id": "twinkly",
+			"name": {
+				"en": "Twinkly",
+				"nl": "Twinkly"
+			},
+			"images": {
+				"large": "drivers/twinkly/assets/images/large.jpg",
+				"small": "drivers/twinkly/assets/images/small.jpg"
+			},
+			"class": "light",
+			"capabilities": [
+				"onoff"
+			],
+			"pair": [
+				{
+					"id": "start"
+				}
+			],
+			"settings": [
+				{
+					"type": "group",
+					"label": {
+						"en": "Twinkly settings",
+						"nl": "Twinkly instellingen"
+					},
+					"children": [
+						{
+							"id": "address",
+							"type": "text",
+							"value": "0.0.0.0",
+							"label": {
+								"en": "IP Address",
+								"nl": "IP adres"
+							}
+						},
+						{
+							"id": "polling",
+							"type": "number",
+							"value": 5,
+							"attr": {
+								"min": 5,
+								"max": 3600
+							},
+							"label": {
+								"en": "Polling Frequency",
+								"nl": "Polling frequentie"
+							}
+						}
+					]
+				}
+			]
+		}
+	],
+	"flow": {
+		"triggers": [
+			{
+				"id": "relay0OnTrigger",
+				"title": {
+					"en": "Relay 1 is turned on",
+					"nl": "Relay 1 is aangezet"
+				},
+				"args": [
+					{
+						"name": "device",
+						"type": "device",
+						"placeholder": {
+							"en": "Select Twinkly 2",
+							"nl": "Selecteer Twinkly 2"
+						},
+						"filter": "driver_id=Twinkly2"
+					}
+				]
+			},
+			{
+				"id": "relay1OnTrigger",
+				"title": {
+					"en": "Relay 2 is turned on",
+					"nl": "Relay 2 is aangezet"
+				},
+				"args": [
+					{
+						"name": "device",
+						"type": "device",
+						"placeholder": {
+							"en": "Select Twinkly 2",
+							"nl": "Selecteer Twinkly 2"
+						},
+						"filter": "driver_id=Twinkly2"
+					}
+				]
+			},
+			{
+				"id": "relay0OffTrigger",
+				"title": {
+					"en": "Relay 1 is turned off",
+					"nl": "Relay 1 is uitgezet"
+				},
+				"args": [
+					{
+						"name": "device",
+						"type": "device",
+						"placeholder": {
+							"en": "Select Twinkly 2",
+							"nl": "Selecteer Twinkly 2"
+						},
+						"filter": "driver_id=Twinkly2"
+					}
+				]
+			},
+			{
+				"id": "relay1OffTrigger",
+				"title": {
+					"en": "Relay 2 is turned off",
+					"nl": "Relay 2 is uitgezet"
+				},
+				"args": [
+					{
+						"name": "device",
+						"type": "device",
+						"placeholder": {
+							"en": "Select Twinkly 2",
+							"nl": "Selecteer Twinkly 2"
+						},
+						"filter": "driver_id=Twinkly2"
+					}
+				]
+			}
+		],
+		"conditions": [
+			{
+				"id": "relay0Powered",
+				"title": {
+					"en": "Relay 1 !{{is|is not}} turned on",
+					"nl": "Relay 1 !{{is|is niet}} aan"
+				},
+				"args": [
+					{
+						"name": "device",
+						"type": "device",
+						"placeholder": {
+							"en": "Select Twinkly 2",
+							"nl": "Selecteer Twinkly 2"
+						},
+						"filter": "driver_id=Twinkly2"
+					}
+				]
+			},
+			{
+				"id": "relay1Powered",
+				"title": {
+					"en": "Relay 2 !{{is|is not}} turned on",
+					"nl": "Relay 2 !{{is|is niet}} aan"
+				},
+				"args": [
+					{
+						"name": "device",
+						"type": "device",
+						"placeholder": {
+							"en": "Select Twinkly 2",
+							"nl": "Selecteer Twinkly 2"
+						},
+						"filter": "driver_id=Twinkly2"
+					}
+				]
+			}
+		],
+		"actions": [
+			{
+				"id": "flipbackSwitch",
+				"title": {
+					"en": "Switch state temporary",
+					"nl": "Wijzig status tijdelijk"
+				},
+				"hint": {
+					"en": "Use this card to turn Twinkly ON or OFF but only for the set time in seconds, after the timer it will switch back.",
+					"nl": "Gebruik deze actie om Twinkly AAN of UIT te schakelen voor de ingestelde duur in seconden, na de timer zal hij terugschakelen."
+				},
+				"args": [
+					{
+						"name": "switch",
+						"type": "dropdown",
+						"placeholder": {
+							"en": "Temporary switch",
+							"nl": "Tijdelijk schakelen"
+						},
+						"values": [
+							{
+								"id": "0",
+								"label": {
+									"en": "Switch OFF",
+									"nl": "Uitschakelen"
+								}
+							},
+							{
+								"id": "1",
+								"label": {
+									"en": "Switch ON",
+									"nl": "Inschakelen"
+								}
+							}
+						]
+					},
+					{
+						"name": "timer",
+						"type": "number",
+						"placeholder": {
+							"en": "Duration in seconds",
+							"nl": "Duur in seconden"
+						},
+						"min": 1,
+						"step": 1
+					},
+					{
+						"name": "device",
+						"type": "device",
+						"placeholder": {
+							"en": "Select Twinkly",
+							"nl": "Selecteer Twinkly"
+						},
+						"filter": "driver_id=Twinkly1|Twinkly-plug|Twinkly-plug-s"
+					}
+				]
+			},
+			{
+				"id": "relay0OnAction",
+				"title": {
+					"en": "Turn on relay 1",
+					"nl": "Zet relay 1 aan"
+				},
+				"args": [
+					{
+						"name": "device",
+						"type": "device",
+						"placeholder": {
+							"en": "Select Twinkly 2",
+							"nl": "Selecteer Twinkly 2"
+						},
+						"filter": "driver_id=Twinkly2"
+					}
+				]
+			},
+			{
+				"id": "relay1OnAction",
+				"title": {
+					"en": "Turn on relay 2",
+					"nl": "Zet relay 2 aan"
+				},
+				"args": [
+					{
+						"name": "device",
+						"type": "device",
+						"placeholder": {
+							"en": "Select Twinkly 2",
+							"nl": "Selecteer Twinkly 2"
+						},
+						"filter": "driver_id=Twinkly2"
+					}
+				]
+			},
+			{
+				"id": "relay0OffAction",
+				"title": {
+					"en": "Turn off relay 1",
+					"nl": "Zet relay 1 uit"
+				},
+				"args": [
+					{
+						"name": "device",
+						"type": "device",
+						"placeholder": {
+							"en": "Select Twinkly 2",
+							"nl": "Selecteer Twinkly 2"
+						},
+						"filter": "driver_id=Twinkly2"
+					}
+				]
+			},
+			{
+				"id": "relay1OffAction",
+				"title": {
+					"en": "Turn off relay 2",
+					"nl": "Zet relay 2 uit"
+				},
+				"args": [
+					{
+						"name": "device",
+						"type": "device",
+						"placeholder": {
+							"en": "Select Twinkly 2",
+							"nl": "Selecteer Twinkly 2"
+						},
+						"filter": "driver_id=Twinkly2"
+					}
+				]
+			},
+			{
+				"id": "flipbackSwitch2",
+				"title": {
+					"en": "Switch state temporary",
+					"nl": "Wijzig status tijdelijk"
+				},
+				"hint": {
+					"en": "Use this card to turn the Twinkly 2 ON or OFF but only for the set time in seconds, after the timer it will switch back.",
+					"nl": "Gebruik deze actie om de Twinkly 2 AAN of UIT te schakelen voor de ingestelde duur in seconden, na de timer zal hij terugschakelen."
+				},
+				"args": [
+					{
+						"name": "relay",
+						"type": "dropdown",
+						"placeholder": {
+							"en": "Relay",
+							"nl": "Relay"
+						},
+						"values": [
+							{
+								"id": "0",
+								"label": {
+									"en": "Relay 1",
+									"nl": "Relay 1"
+								}
+							},
+							{
+								"id": "1",
+								"label": {
+									"en": "Relay 2",
+									"nl": "Relay 2"
+								}
+							}
+						]
+					},
+					{
+						"name": "switch",
+						"type": "dropdown",
+						"placeholder": {
+							"en": "Temporary switch",
+							"nl": "Tijdelijk schakelen"
+						},
+						"values": [
+							{
+								"id": "0",
+								"label": {
+									"en": "Switch OFF",
+									"nl": "Uitschakelen"
+								}
+							},
+							{
+								"id": "1",
+								"label": {
+									"en": "Switch ON",
+									"nl": "Inschakelen"
+								}
+							}
+						]
+					},
+					{
+						"name": "timer",
+						"type": "number",
+						"placeholder": {
+							"en": "Duration in seconds",
+							"nl": "Duur in seconden"
+						},
+						"min": 1,
+						"step": 1
+					},
+					{
+						"name": "device",
+						"type": "device",
+						"placeholder": {
+							"en": "Select Twinkly 2",
+							"nl": "Selecteer Twinkly 2"
+						},
+						"filter": "driver_id=Twinkly2"
+					}
+				]
+			},
+			{
+				"id": "moveRollerShutter",
+				"title": {
+					"en": "Change roller shutter",
+					"nl": "Wijzig roller shutter"
+				},
+				"hint": {
+					"en": "Use this card to open, close or stop your roller shutter for a given time.",
+					"nl": "Gebruik deze actie om de roller shutter te openen, sluiten of stoppen met de opgegeven duur."
+				},
+				"args": [
+					{
+						"name": "direction",
+						"type": "dropdown",
+						"placeholder": {
+							"en": "Direction",
+							"nl": "Richting"
+						},
+						"values": [
+							{
+								"id": "open",
+								"label": {
+									"en": "Up",
+									"nl": "Omhoog"
+								}
+							},
+							{
+								"id": "stop",
+								"label": {
+									"en": "Stop",
+									"nl": "Stop"
+								}
+							},
+							{
+								"id": "close",
+								"label": {
+									"en": "Down",
+									"nl": "Omlaag"
+								}
+							}
+						]
+					},
+					{
+						"name": "duration",
+						"type": "number",
+						"placeholder": {
+							"en": "Duration in seconds",
+							"nl": "Duur in seconden"
+						},
+						"min": 1,
+						"step": 1
+					},
+					{
+						"name": "device",
+						"type": "device",
+						"placeholder": {
+							"en": "Select Twinkly 2",
+							"nl": "Selecteer Twinkly 2"
+						},
+						"filter": "driver_id=Twinkly2-rollershutter"
+					}
+				]
+			}
+		]
+	}
+}

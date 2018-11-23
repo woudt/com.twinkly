@@ -1,0 +1,20 @@
+{
+  "pair": {
+    "title": "Add Twinkly",
+    "nosettings": "Please fill in all the required fields.",
+    "unauthorized": "Error 401: user credentials are missing or this user is not authorized, make sure you have copied the correct user credentials as entered in the Twinkly smartphone app or Webinterface.",
+    "servererror": "Error 500: internal server error",
+    "timeout": "Timeout error: make sure you have entered the correct IP address and that the Twinkly is online.",
+    "unknownerror": "Unknown error, are you sure you have entered the correct IP address and Homey is on the same network as the Twinkly? Please check your settings and try again.",
+    "intro": "Enter the IP address and polling frequency for your Twinkly.",
+    "address": "IP Address",
+    "polling": "Polling Frequency",
+    "hostname": "Twinkly Hostname:",
+    "mac": "Twinkly MAC Address:",
+    "test" : "Test Connection",
+    "testing" : "Connection test succesfull, you can now connect the Twinkly.",
+    "connect": "Connect",
+    "success": "Twinkly added succesfully"
+  },
+  "Unreachable": "Unreachable"
+}
