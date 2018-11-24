@@ -60,9 +60,13 @@ class TwinklyDevice extends Homey.Device {
 
         })
         .catch(error => {
-          this.error(error);
-          this.setUnavailable(Homey.__('Unreachable'));
-          this.pingDevice();
+          if (error == 'Error: 401') {
+            this.updateToken();
+          } else {
+            this.error(error);
+            this.setUnavailable(Homey.__('Unreachable'));
+            this.pingDevice();
+          }
         })
     }, 1000 * intervalStatus);
   }
