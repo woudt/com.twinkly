@@ -9,6 +9,7 @@ class TwinklyDriver extends Homey.Driver {
     socket.on('testConnection', function(data, callback) {
       util.getDeviceInfo(data.address)
         .then(result => {
+          this.log(result);
           callback(false, result);
         })
         .catch(error => {
