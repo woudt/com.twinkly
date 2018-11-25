@@ -20,9 +20,21 @@ class TwinklyDevice extends Homey.Device {
   // LISTENERS FOR UPDATING CAPABILITIES
   onCapabilityOnoff(value, opts, callback) {
     if (value) {
-      util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'POST', {"mode":"movie"}, this.getSetting('address'));
+      util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'POST', {"mode":"movie"}, this.getSetting('address'))
+        .then(result => {
+          this.log(result);
+        })
+        .catch(error => {
+          this.error(error);
+        })
     } else {
-      util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'POST', {"mode":"off"}, this.getSetting('address'));
+      util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'POST', {"mode":"off"}, this.getSetting('address'))
+        .then(result => {
+          this.log(result);
+        })
+        .catch(error => {
+          this.error(error);
+        })
     }
     callback(null, value);
   }
@@ -45,6 +57,7 @@ class TwinklyDevice extends Homey.Device {
     this.pollingInterval = setInterval(() => {
       util.getState(this.getSetting('address'), this.getStoreValue("token"))
         .then(result => {
+          this.log(result);
           if (result.mode == 'off') {
             var state = false;
           } else {
