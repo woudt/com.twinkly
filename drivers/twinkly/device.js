@@ -36,8 +36,6 @@ class TwinklyDevice extends Homey.Device {
       .catch(error => {
         this.error(error);
       })
-
-      setTimeout(() => { this.updateToken() }, 10800000);
   }
 
   pollDevice(intervalStatus) {
@@ -79,11 +77,20 @@ class TwinklyDevice extends Homey.Device {
       util.getState(this.getSetting('address'), this.getStoreValue("token"))
         .then(result => {
           this.setAvailable();
-          var intervalPing = this.getSetting('polling') || 5;
-          this.pollDevice(intervalPing);
+          var intervalStatus = this.getSetting('polling') || 5;
+          this.pollDevice(intervalStatus);
         })
         .catch(error => {
-          this.log('Device is not reachable, pinging every 63 seconds to see if it comes online again.');
+          if (error == 'Error: 401') {
+            this.updateToken();
+            setTimeout(function() {
+              this.setAvailable();
+              var intervalStatus = this.getSetting('polling') || 5;
+              this.pollDevice(intervalStatus);
+            }, 5000);
+          } else {
+            this.log('Device is not reachable, pinging every 63 seconds to see if it comes online again.');
+          }
         })
     }, 63000);
   }
