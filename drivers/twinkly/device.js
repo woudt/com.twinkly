@@ -22,6 +22,15 @@ class TwinklyDevice extends Homey.Device {
     if (value) {
       util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'POST', {"mode":"movie"}, this.getSetting('address'))
         .then(result => {
+          this.log('command movie');
+          this.log(result);
+        })
+        .catch(error => {
+          this.error(error);
+        })
+      util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'POST', {"mode":"effect"}, this.getSetting('address'))
+        .then(result => {
+          this.log('command effect');
           this.log(result);
         })
         .catch(error => {
