@@ -8,5 +8,5 @@ Make sure you have your Twinkly Lights configured using the app and connected to
 For support please use the official support topic on the forum [here](https://community.athom.com/t/4386).
 
 ## Changelog
-### 2018-12-02 - v1.0.1
-* FIX: small improvement that might fix issues for some people
+### 2019-01-21 - v1.0.2
+* FIX: small fix to avoid app crashes when reconnecting after a disconnect

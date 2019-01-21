@@ -83,7 +83,7 @@ class TwinklyDevice extends Homey.Device {
         .catch(error => {
           if (error == 'Error: 401') {
             this.updateToken();
-            setTimeout(function() {
+            setTimeout(() => {
               this.setAvailable();
               var intervalStatus = this.getSetting('polling') || 5;
               this.pollDevice(intervalStatus);
