@@ -6,25 +6,22 @@ const util = require('/lib/util.js');
 class TwinklyDevice extends Homey.Device {
 
   onInit() {
-    this.registerCapabilityListener('onoff', this.onCapabilityOnoff.bind(this));
-
     this.updateToken();
     var intervalStatus = this.getSetting('polling') || 5;
     this.pollDevice(intervalStatus);
+
+    // LISTENERS FOR UPDATING CAPABILITIES
+    this.registerCapabilityListener('onoff', (value, opts) => {
+      if (value) {
+        return util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'POST', {"mode":"movie"}, this.getSetting('address'));
+      } else {
+        return util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'POST', {"mode":"off"}, this.getSetting('address'));
+      }
+    });
   }
 
   onDeleted() {
     clearInterval(this.pollingInterval);
-  }
-
-  // LISTENERS FOR UPDATING CAPABILITIES
-  onCapabilityOnoff(value, opts, callback) {
-    if (value) {
-      util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'POST', {"mode":"movie"}, this.getSetting('address'));
-    } else {
-      util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'POST', {"mode":"off"}, this.getSetting('address'));
-    }
-    callback(null, value);
   }
 
   // HELPER FUNCTIONS
