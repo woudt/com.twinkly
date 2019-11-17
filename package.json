@@ -1,11 +1,12 @@
 {
   "name": "com.twinkly",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Homey app for basic control of Twinkly Christmas Lights",
   "main": "app.js",
   "dependencies": {
-    "node-fetch": "^2.3.0",
-    "random-bytes": "^1.0.0"
+    "node-fetch": "^2.6.0",
+    "random-bytes": "^1.0.0",
+    "tinycolor2": "^1.4.1"
   },
   "devDependencies": {},
   "scripts": {

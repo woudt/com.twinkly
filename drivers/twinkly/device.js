@@ -6,18 +6,28 @@ const util = require('/lib/util.js');
 class TwinklyDevice extends Homey.Device {
 
   onInit() {
+
+    this.setAvailable();
+
+    // START POLLING
     this.updateToken();
     var intervalStatus = this.getSetting('polling') || 5;
     this.pollDevice(intervalStatus);
 
+    // UPDATE LIGHT PROFILE
+    setTimeout(() => {
+      this.updateTwinklyStore();
+    }, 5000);
+
     // LISTENERS FOR UPDATING CAPABILITIES
     this.registerCapabilityListener('onoff', (value, opts) => {
       if (value) {
-        return util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'POST', {"mode":"movie"}, this.getSetting('address'));
+        return util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'POST', JSON.stringify({"mode":"movie"}), this.getSetting('address'));
       } else {
-        return util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'POST', {"mode":"off"}, this.getSetting('address'));
+        return util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'POST', JSON.stringify({"mode":"off"}), this.getSetting('address'));
       }
     });
+
   }
 
   onDeleted() {
@@ -35,13 +45,31 @@ class TwinklyDevice extends Homey.Device {
       })
   }
 
+  async updateTwinklyStore() {
+    let data = await util.getDeviceInfo(this.getSetting('address'));
+
+    this.setStoreValue("product_code", data.product_code);
+    this.setStoreValue("hw_id", data.hw_id);
+    this.setStoreValue("mac", data.mac);
+    this.setStoreValue("max_supported_led", data.max_supported_led);
+    this.setStoreValue("base_leds_number", data.base_leds_number);
+    this.setStoreValue("number_of_led", data.number_of_led);
+    this.setStoreValue("led_profile", data.led_profile);
+    this.setStoreValue("frame_rate", data.frame_rate);
+    this.setStoreValue("movie_capacity", data.movie_capacity);
+  }
+
   pollDevice(intervalStatus) {
     clearInterval(this.pollingInterval);
     clearInterval(this.pingInterval);
 
     this.pollingInterval = setInterval(() => {
-      util.getState(this.getSetting('address'), this.getStoreValue("token"))
+      util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'GET', '', this.getSetting('address'))
         .then(result => {
+          if (!this.getAvailable()) {
+            this.setAvailable();
+          }
+
           if (result.mode == 'off') {
             var state = false;
           } else {
@@ -71,7 +99,7 @@ class TwinklyDevice extends Homey.Device {
     clearInterval(this.pingInterval);
 
     this.pingInterval = setInterval(() => {
-      util.getState(this.getSetting('address'), this.getStoreValue("token"))
+      util.sendCommand('/xled/v1/led/mode', this.getStoreValue("token"), 'GET', '', this.getSetting('address'))
         .then(result => {
           this.setAvailable();
           var intervalStatus = this.getSetting('polling') || 5;

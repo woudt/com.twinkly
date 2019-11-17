@@ -10,8 +10,8 @@
 		"en": [ "Twinkly", "Christmas", "Light", "LED" ],
 		"nl": [ "Twinkly", "Kerst", "Verlichting", "LED" ]
 	},
-	"version": "1.0.3",
-	"compatibility": ">=2.0.0",
+	"version": "1.1.0",
+	"compatibility": ">=3.0.0",
 	"author": {
 		"name": "Jelger Haanstra",
 		"email": "homey@solidewebservices.com",
@@ -28,14 +28,16 @@
 		"url": "https://github.com/jghaanstra/com.twinkly/issues"
 	},
 	"homeyCommunityTopicId": 4386,
+  "source": "https://github.com/jghaanstra/com.twinkly",
+  "homepage": "https://homey.app/a/com.twinkly/",
 	"images": {
 		"large": "./assets/images/large.jpg",
 		"small": "./assets/images/small.jpg"
 	},
 	"category": "lights",
 	"description": {
-		"en": "Control Twinkly devices",
-		"nl": "Bestuur Twinkly apparaten"
+		"en": "Control your Twinkly using Homey",
+		"nl": "Bedien je Twinkly via Homey"
 	},
 	"dependencies": {
 		"net": "*"
@@ -56,9 +58,20 @@
 				"onoff"
 			],
 			"pair": [
-				{
-					"id": "start"
-				}
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_my_devices"
+          },
+          "options": {
+            "singular": false
+          }
+        },
+        {
+          "id": "add_my_devices",
+          "template": "add_devices"
+        }
 			],
 			"settings": [
 				{
@@ -94,5 +107,31 @@
 				}
 			]
 		}
-	]
+	],
+  "flow": {
+    "actions": [
+      {
+				"id": "changeSingleColor",
+				"title": {
+					"en": "Set color",
+					"nl": "Stel kleur in"
+				},
+				"args": [
+          {
+						"name": "color",
+						"type": "color"
+          },
+          {
+						"name": "device",
+						"type": "device",
+            "placeholder": {
+							"en": "Select Twinkly",
+							"nl": "Selecteer Twinkly"
+						},
+						"filter": "driver_id=twinkly"
+          }
+				]
+			}
+    ]
+  }
 }
