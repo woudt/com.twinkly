@@ -21,6 +21,16 @@ class TwinklyApp extends Homey.App {
         return util.sendCommand('/xled/v1/led/mode', args.device.getStoreValue("token"), 'POST', JSON.stringify({"mode":"movie"}), args.device.getSetting('address'));
       })
 
+    new Homey.FlowCardAction('switchDemoMode')
+      .register()
+      .registerRunListener(async (args, state) => {
+        if (args.mode == 'on') {
+          return util.sendCommand('/xled/v1/led/mode', args.device.getStoreValue("token"), 'POST', JSON.stringify({"mode":"demo"}), args.device.getSetting('address'));
+        } else {
+          return util.sendCommand('/xled/v1/led/mode', args.device.getStoreValue("token"), 'POST', JSON.stringify({"mode":"movie"}), args.device.getSetting('address'));
+        }
+      })
+
   }
 
 }

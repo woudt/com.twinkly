@@ -1,5 +1,8 @@
 {
   "1.1.0": {
     "en": "Autodiscovery has been added to make pairing easier. Also an action card for setting your Twinkly lights to a solid color has been added as extra functionality."
+  },
+  "1.1.1": {
+    "en": "Added an action card for switching demo mode on or off."
   }
 }

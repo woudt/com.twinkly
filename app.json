@@ -10,7 +10,7 @@
 		"en": [ "Twinkly", "Christmas", "Light", "LED" ],
 		"nl": [ "Twinkly", "Kerst", "Verlichting", "LED" ]
 	},
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"compatibility": ">=3.0.0",
 	"author": {
 		"name": "Jelger Haanstra",
@@ -29,7 +29,7 @@
 	},
 	"homeyCommunityTopicId": 4386,
   "source": "https://github.com/jghaanstra/com.twinkly",
-  "homepage": "https://homey.app/a/com.twinkly/",
+  "homepage": "https://community.athom.com/t/4386",
 	"images": {
 		"large": "./assets/images/large.jpg",
 		"small": "./assets/images/small.jpg"
@@ -120,6 +120,44 @@
           {
 						"name": "color",
 						"type": "color"
+          },
+          {
+						"name": "device",
+						"type": "device",
+            "placeholder": {
+							"en": "Select Twinkly",
+							"nl": "Selecteer Twinkly"
+						},
+						"filter": "driver_id=twinkly"
+          }
+				]
+			},
+      {
+				"id": "switchDemoMode",
+				"title": {
+					"en": "Demo Mode",
+					"nl": "Demo modus"
+				},
+				"args": [
+          {
+						"name": "mode",
+						"type": "dropdown",
+            "values": [
+              {
+                "id": "on",
+                "label": {
+                  "en": "On",
+                  "nl": "Aan"
+                }
+              },
+              {
+                "id": "off",
+                "label": {
+                  "en": "Off",
+                  "nl": "Uit"
+                }
+              }
+            ]
           },
           {
 						"name": "device",
